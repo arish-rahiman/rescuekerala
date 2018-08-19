@@ -75,6 +75,9 @@ class Volunteer(models.Model):
         verbose_name = "Volunteer"
         verbose_name_plural = "Volunteers"
 
+    def __str__(self):
+        return self.user.get_full_name()
+
 class Center(models.Model):
     CENTER_STATUS = (
         (True, 'Open'),
@@ -96,6 +99,9 @@ class Center(models.Model):
     class Meta:
         verbose_name = "Center"
         verbose_name_plural = "Centers"
+
+    def __str__(self):
+        return self.name
 
 class ShipmentRequest(models.Model):
     STATUS = (
@@ -119,6 +125,7 @@ class ShipmentRequest(models.Model):
         verbose_name = "Shipment Request"
         verbose_name_plural = "Shipment Requests"
 
+
 REQUEST_ITEM_STATUS = (
     ('RC', 'Request Created'),
     ('PC', 'Partially Completed'),
@@ -135,6 +142,12 @@ class ShipmentRequestItem(models.Model):
     is_urgent = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_item_name(self):
+        if self.inventory_item:
+            return self.inventory_item.name
+        else:
+            return self.line_item
 
     class Meta:
         verbose_name = "Shipment Request Item"

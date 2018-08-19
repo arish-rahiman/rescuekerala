@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+    <h1 class="text-center">Request No: {{ object.id }}</h1>
+    <div class="panel panel-default">
+      <div class="panel-body">
+          <p>Name of Rescue Center: {{ object.delivery_to }}</p>
+          <p>Requested By: {{ object.raised_by.user.get_full_name }}, {{ object.raised_by.user.email }}, Ph: {{ object.raised_by.phone_number  }} </p>
+          <form method="POST">
+              {% csrf_token %}
+              <div class="hidden">{{ form.id }}</div>
+              <p>Status: {{ form.status }} <input type="submit" value="Update"></p>
+          </form>
+
+      </div>
+    </div>
+ <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align:center;">Request details</th>
+                </tr>
+            </thead>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.get_item_name }}</td>
+                <td>{{ item.qty }} {% if item.inventory_item %}({{ item.inventory_item.unit  }}){% endif %}</td>
+            </tr>
+        {% endfor %}
+  </table>
+ </div>
+{% endblock %}

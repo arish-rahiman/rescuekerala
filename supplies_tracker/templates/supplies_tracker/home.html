@@ -2,7 +2,27 @@
 {% load bootstrap3 %}
 
 {% block content %}
-  <div class="text-center">
-      <h2>Volunteer Login</h2>
-  </div>
+<h1 class="text-center">District Needs &amp; Collection Center</h1>
+<h2 class="text-center">ജില്ലകളിലെ ആവശ്യങ്ങള്‍</h2>
+<div class="">
+  <table class="table">
+    <tr>
+      <th>District</th>
+      <th>Items required</th>
+      <th>Contacts & Collection points</th>
+    </tr>
+  {% for item in district_data %}
+    <!-- Ernakulam -->
+    <tr valign="top">
+      <td><strong>{{item.get_district_display}}</strong></td>
+      <td>
+        {{item.needs|linebreaks}}
+      </td>
+      <td>
+        {{item.cnandpts|linebreaks}}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 {% endblock %}
