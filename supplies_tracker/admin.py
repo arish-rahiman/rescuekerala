@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import (InventoryItem, Volunteer, Center, InventoryItemStock, ShipmentRequest, ShipmentRequestItem,
-                     InventoryItemCategory)
+                     InventoryItemCategory, InventoryUnit)
 
 
 class BaseAdmin(admin.ModelAdmin):
@@ -48,6 +48,7 @@ class InventoryItemCategoryAdmin(BaseAdmin):
     list_display = ('name',)
 
 
+admin.site.register(InventoryUnit)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Center, CenterAdmin)
 admin.site.register(InventoryItem, InventoryItemAdmin)
