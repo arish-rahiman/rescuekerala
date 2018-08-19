@@ -27,7 +27,7 @@
                         <td>{{ item.notes }}</td>
                         <td>{{ item.updated_at }}</td>
                         <td>{{ item.is_urgent }}</td>
-                        <td><a href="{% url 'supplies_tracker:update_request' pk=item.id %}">Update</a></td>
+                        <td><a class="btn btn-sm btn-success" href="{% url 'supplies_tracker:update_request' pk=item.id %}">Update</a></td>
                     </tr>
                 {% endfor %}
                 </table>
@@ -53,7 +53,7 @@
                         <td>{{ item.get_center_type_display }}</td>
                         <td>{{ item.coordinator }}</td>
                         <td>{{ item.status }}</td>
-                        <td><a href="">Add Item Request</a></td>
+                        <td><a class="btn btn-sm btn-success" href="">Add Item Request</a></td>
                     </tr>
                 {% endfor %}
                 </table>
