@@ -44,7 +44,7 @@ class UpdateShipmentRequestView(UpdateView, LoginRequiredMixin):
         return context
 
 
-class DashBoardView(TemplateView):
+class DashBoardView(TemplateView, LoginRequiredMixin):
     template_name = "supplies_tracker/dashboard.html"
 
     def get_context_data(self, **kwargs):
@@ -55,6 +55,7 @@ class DashBoardView(TemplateView):
             centers = dis_center_data.get('centers').values_list('id', flat=True)
             dis_request_data = ShipmentRequest.objects.get_district_request_data(centers)
             district_data.append({
+                'dis_code': dis_code,
                 'name': district,
                 'rc_count': dis_center_data['rc_count'],
                 'cc_count': dis_center_data['cc_count'],
