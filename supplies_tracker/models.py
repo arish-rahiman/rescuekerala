@@ -25,18 +25,19 @@ CENTER_TYPE = (
     ('CC', 'Collection Center'),
 )
 
+class InventoryItemCategory(models.Model):
+    name = models.CharField(max_length=100)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
 class InventoryItem(models.Model):
-    ITEM_TYPE = (
-        ('FD', 'Food'),
-        ('ME', 'Medicine'),
-        ('CL', 'Clothes'),
-        ('OT', 'Other'),
-    )
     name = models.CharField(max_length=100)
-    name_ml = models.CharField(max_length=100)
     unit = models.CharField(max_length=50)
-    category = models.CharField(max_length=2, choices=ITEM_TYPE)
+    category = models.ForeignKey('InventoryItemCategory', on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
