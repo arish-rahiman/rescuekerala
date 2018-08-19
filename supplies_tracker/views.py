@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 
 from .models import (InventoryItem, Volunteer, Center, InventoryItemStock, ShipmentRequest, ShipmentRequestItem,
                      InventoryItemCategory)
@@ -15,6 +16,18 @@ from .models import (InventoryItem, Volunteer, Center, InventoryItemStock, Shipm
 class HomePageView(TemplateView):
     template_name = "supplies_tracker/home.html"
 
+
+class DistrictListView(ListView, LoginRequiredMixin):
+    template_name = "supplies_tracker/list.html"
+    model = ShipmentRequest
+
+    def get_queryset(self):
+        return ShipmentRequest.objects.filter(delivery_to__district=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super(DistrictListView, self).get_context_data(**kwargs)
+        context['centers'] = Center.objects.filter(district=self.kwargs['slug'])
+        return context
 
 class UpdateShipmentRequestView(UpdateView, LoginRequiredMixin):
     model = ShipmentRequest

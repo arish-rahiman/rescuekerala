@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#request">Requests</a></li>
+        <li><a data-toggle="tab" href="#center">Centers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="request" class="tab-pane fade in active">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="6" style="text-align:center;">Request details</th>
+                        </tr>
+                    </thead>
+                {% for item in object_list %}
+                    <tr>
+                        <td>{{ item.raised_by }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>{{ item.notes }}</td>
+                        <td>{{ item.updated_at }}</td>
+                        <td>{{ item.is_urgent }}</td>
+                        <td><a href="{% url 'supplies_tracker:update_request' pk=item.id %}">Update</a></td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div id="center" class="tab-pane fade">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="6" style="text-align:center;">Centers</th>
+                        </tr>
+                    </thead>
+                {% for item in centers %}
+                    <tr>
+                        <td>{{ item.serial_id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.center_type }}</td>
+                        <td>{{ item.coordinator }}</td>
+                        <td>{{ item.status }}</td>
+                        <td><a href="">Add Item Request</a></td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
