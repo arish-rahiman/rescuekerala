@@ -41,8 +41,8 @@ class InventoryItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "InventoryItem"
-        verbose_name_plural = "InventoryItems"
+        verbose_name = "Inventory Item"
+        verbose_name_plural = "Inventory Items"
 
     def __str__(self):
         return self.name
@@ -79,7 +79,6 @@ class Center(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     update_log = models.TextField(null=True, blank=True)
     center_type = models.CharField(max_length=2, choices=CENTER_TYPE)
-    name = models.CharField(max_length=100)
     district_center = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
@@ -106,8 +105,8 @@ class ShipmentRequest(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "ShipmentRequest"
-        verbose_name_plural = "ShipmentRequests"
+        verbose_name = "Shipment Request"
+        verbose_name_plural = "Shipment Requests"
 
 REQUEST_ITEM_STATUS = (
     ('RC', 'Request Created'),
@@ -128,8 +127,8 @@ class ShipmentRequestItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "ShipmentRequestItem"
-        verbose_name_plural = "ShipmentRequestItems"
+        verbose_name = "Shipment Request Item"
+        verbose_name_plural = "Shipment Request Items"
 
 
 class ShipmentRequestItemLog(models.Model):
@@ -142,8 +141,8 @@ class ShipmentRequestItemLog(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "ShipmentRequestItemLog"
-        verbose_name_plural = "ShipmentRequestItemLogs"
+        verbose_name = "Shipment Request Item Log"
+        verbose_name_plural = "Shipment Request Item Logs"
 
 
 class InventoryItemStock(models.Model):
@@ -158,8 +157,8 @@ class InventoryItemStock(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "InventoryItemStock"
-        verbose_name_plural = "InventoryItemStocks"
+        verbose_name = "Inventory Item Stock"
+        verbose_name_plural = "Inventory Item Stocks"
 
 
 class InventoryItemStockLog(models.Model):
@@ -171,5 +170,5 @@ class InventoryItemStockLog(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "InventoryItemStockLog"
-        verbose_name_plural = "InventoryItemStockLogs"
+        verbose_name = "Inventory Item Stock Log"
+        verbose_name_plural = "Inventory Item Stock Logs"
