@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import InventoryItem, Volunteer, Center, InventoryItemStock
+from .models import (InventoryItem, Volunteer, Center, InventoryItemStock, ShipmentRequest, ShipmentRequestItem,
+                     InventoryItemCategory)
 
 
 class BaseAdmin(admin.ModelAdmin):
@@ -30,7 +31,25 @@ class InventoryItemStockAdmin(BaseAdmin):
     list_display = ('item', 'center', 'qty_available', 'qty_needed')
 
 
+class ShipmentRequestAdmin(BaseAdmin):
+    list_filter = ('delivery_to', 'status', 'is_urgent', 'created_at', 'updated_at')
+    list_display = ('delivery_to', 'raised_by', 'status', 'is_urgent')
+
+
+class ShipmentRequestItemAdmin(BaseAdmin):
+    list_filter = ('shipment_request', 'inventory_item', 'status', 'is_urgent', 'created_at', 'updated_at')
+    list_display = ('shipment_request', 'inventory_item', 'qty', 'status', 'is_urgent')
+
+
+class InventoryItemCategoryAdmin(BaseAdmin):
+    list_filter = ('created_at', 'updated_at')
+    list_display = ('name',)
+
+
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Center, CenterAdmin)
 admin.site.register(InventoryItem, InventoryItemAdmin)
 admin.site.register(InventoryItemStock, InventoryItemStockAdmin)
+admin.site.register(ShipmentRequest, ShipmentRequestAdmin)
+admin.site.register(ShipmentRequestItem, ShipmentRequestItemAdmin)
+admin.site.register(InventoryItemCategory, InventoryItemCategoryAdmin)
