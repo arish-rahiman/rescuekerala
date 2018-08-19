@@ -99,6 +99,7 @@ class ShipmentRequest(models.Model):
     completed_at = models.DateTimeField(null=True, blank=True)
     completed_by = models.ForeignKey('Volunteer', null=True, blank=True, on_delete=models.CASCADE, related_name="+")
     notes = models.TextField(null=True, blank=True)
+    is_urgent = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -106,33 +107,36 @@ class ShipmentRequest(models.Model):
         verbose_name = "ShipmentRequest"
         verbose_name_plural = "ShipmentRequests"
 
-ITEM_MANIFEST_STATUS = (
+REQUEST_ITEM_STATUS = (
     ('RC', 'Request Created'),
     ('PC', 'Partially Completed'),
     ('CO', 'Completed'),
     ('DE', 'Delivered'),
 )
 
-class ShipmentRequestManifest(models.Model):
+class ShipmentRequestItem(models.Model):
     shipment_request = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
     inventory_item = models.ForeignKey('InventoryItem', null=True, blank=True, on_delete=models.CASCADE)
     line_item = models.TextField(null=True, blank=True)
     qty = models.IntegerField()
-    status = models.CharField(max_length=3, choices=ITEM_MANIFEST_STATUS, default='RC')
-
-    class Meta:
-        verbose_name = "ShipmentRequestManifest"
-        verbose_name_plural = "ShipmentRequestManifests"
-
-class ShipmentRequestManifestLog(models.Model):
-    shipment_request_manifest = models.ForeignKey('ShipmentRequestManifest', on_delete=models.CASCADE)
-    responded_by = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
-    comment = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=3, choices=REQUEST_ITEM_STATUS, default='RC')
+    is_urgent = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    qty_promised = models.IntegerField()
-    status_changed_to = models.CharField(max_length=3, choices=ITEM_MANIFEST_STATUS, default='RC')
 
     class Meta:
-        verbose_name = "ShipmentRequestManifestLog"
-        verbose_name_plural = "ShipmentRequestManifestLogs"
+        verbose_name = "ShipmentRequestItem"
+        verbose_name_plural = "ShipmentRequestItems"
+
+class ShipmentRequestItemLog(models.Model):
+    shipment_request_item = models.ForeignKey('ShipmentRequestItem', on_delete=models.CASCADE)
+    responded_by = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
+    comment = models.TextField(null=True, blank=True)
+    qty_promised = models.IntegerField()
+    status_changed_to = models.CharField(max_length=3, choices=REQUEST_ITEM_STATUS, default='RC')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "ShipmentRequestItemLog"
+        verbose_name_plural = "ShipmentRequestItemLogs"
