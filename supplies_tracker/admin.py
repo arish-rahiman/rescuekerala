@@ -9,7 +9,7 @@ class BaseAdmin(admin.ModelAdmin):
 
 
 class VolunteerAdmin(BaseAdmin):
-	list_display = ('get_center', 'get_name', 'phone_number')
+    list_display = ('get_center', 'get_name', 'phone_number')
 
     def get_name(self, obj):
         return obj.user.get_full_name()
