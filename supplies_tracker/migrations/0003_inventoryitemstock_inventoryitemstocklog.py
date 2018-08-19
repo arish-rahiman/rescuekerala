@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('supplies_tracker', '0002_shipmentrequest_shipmentrequestmanifest_shipmentrequestmanifestlog'),
+        ('supplies_tracker', '0003_auto_20180819_2238'),
     ]
 
     operations = [
