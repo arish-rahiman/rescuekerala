@@ -30,7 +30,8 @@ class InventoryItem(models.Model):
     ITEM_TYPE = (
         ('FD', 'Food'),
         ('ME', 'Medicine'),
-        ('NF', 'Non-Food'),
+        ('CL', 'Clothes'),
+        ('OT', 'Other'),
     )
     name = models.CharField(max_length=100)
     name_ml = models.CharField(max_length=100)
@@ -79,7 +80,7 @@ class Center(models.Model):
     update_log = models.TextField(null=True, blank=True)
     center_type = models.CharField(max_length=2, choices=CENTER_TYPE)
     name = models.CharField(max_length=100)
-    district_center = models.ForeignKey('self', on_delete=models.CASCADE)
+    district_center = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         verbose_name = "Center"
