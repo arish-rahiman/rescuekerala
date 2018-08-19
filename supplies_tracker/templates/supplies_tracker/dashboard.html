@@ -26,7 +26,7 @@
       </td>
       <td>{{district.active_requests}} ({{district.urgent_requests}} urgent)</td>
       <td>{{district.total_requests}}</td>
-      <td><a href="{% url 'supplies_tracker:district_list' slug=district.dis_code %}" target="_self">Click Here</a></td>
+      <td><a class="btn btn-sm btn-success" href="{% url 'supplies_tracker:district_list' slug=district.dis_code %}" target="_self">View</a></td>
     </tr>
     {% endfor %}
   </table>
