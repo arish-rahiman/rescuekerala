@@ -10,9 +10,6 @@ from .models import (InventoryItem, Volunteer, Center, InventoryItemStock, Shipm
                      InventoryItemCategory)
 
 
-
-
-
 class HomePageView(TemplateView):
     template_name = "supplies_tracker/home.html"
 
@@ -28,6 +25,7 @@ class DistrictListView(ListView, LoginRequiredMixin):
         context = super(DistrictListView, self).get_context_data(**kwargs)
         context['centers'] = Center.objects.filter(district=self.kwargs['slug'])
         return context
+
 
 class UpdateShipmentRequestView(UpdateView, LoginRequiredMixin):
     model = ShipmentRequest

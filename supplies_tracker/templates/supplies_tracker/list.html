@@ -12,13 +12,18 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th colspan="6" style="text-align:center;">Request details</th>
+                            <th>Raised By</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                            <th>Last Updated</th>
+                            <th>Urgent</th>
+                            <th>Update</th>
                         </tr>
                     </thead>
                 {% for item in object_list %}
                     <tr>
                         <td>{{ item.raised_by }}</td>
-                        <td>{{ item.status }}</td>
+                        <td>{{ item.get_status_display }}</td>
                         <td>{{ item.notes }}</td>
                         <td>{{ item.updated_at }}</td>
                         <td>{{ item.is_urgent }}</td>
@@ -33,14 +38,19 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th colspan="6" style="text-align:center;">Centers</th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Coordinator</th>
+                            <th>Status</th>
+                            <th>Add Request</th>
                         </tr>
                     </thead>
                 {% for item in centers %}
                     <tr>
                         <td>{{ item.serial_id }}</td>
                         <td>{{ item.name }}</td>
-                        <td>{{ item.center_type }}</td>
+                        <td>{{ item.get_center_type_display }}</td>
                         <td>{{ item.coordinator }}</td>
                         <td>{{ item.status }}</td>
                         <td><a href="">Add Item Request</a></td>
