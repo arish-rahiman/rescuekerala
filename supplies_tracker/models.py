@@ -115,7 +115,7 @@ REQUEST_ITEM_STATUS = (
 )
 
 class ShipmentRequestItem(models.Model):
-    shipment_request = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
+    shipment_request = models.ForeignKey('ShipmentRequest', on_delete=models.CASCADE)
     inventory_item = models.ForeignKey('InventoryItem', null=True, blank=True, on_delete=models.CASCADE)
     line_item = models.TextField(null=True, blank=True)
     qty = models.IntegerField()
@@ -127,6 +127,7 @@ class ShipmentRequestItem(models.Model):
     class Meta:
         verbose_name = "ShipmentRequestItem"
         verbose_name_plural = "ShipmentRequestItems"
+
 
 class ShipmentRequestItemLog(models.Model):
     shipment_request_item = models.ForeignKey('ShipmentRequestItem', on_delete=models.CASCADE)
