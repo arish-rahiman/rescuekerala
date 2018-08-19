@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h1 class="text-center">District Needs &amp; Collection Center</h1>
+<h2 class="text-center">ജില്ലകളിലെ ആവശ്യങ്ങള്‍</h2>
+<div class="">
+  <table class="table">
+    <tr>
+      <th>District</th>
+      <th>Number of Rescue Centers</th>
+      <th>Number of Collection Centers</th>
+      <th>Number of Active Requests</th>
+      <th>Total Number of Requests</th>
+      <th>Disctrict Dashboard Page</th>
+    </tr>
+  {% for district in district_data %}
+    <!-- Ernakulam -->
+    <tr valign="top">
+      <td><strong>{{district.name}}</strong></td>
+      <td>
+        {{district.rc_count}}
+      </td>
+      <td>
+        {{district.cc_count}}
+      </td>
+      <td>{{district.active_requests}} ({{district.urgent_requests}} urgent)</td>
+      <td>{{district.total_requests}}</td>
+      <td>Link</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
