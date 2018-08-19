@@ -124,6 +124,7 @@ class ShipmentRequestManifest(models.Model):
         verbose_name = "ShipmentRequestManifest"
         verbose_name_plural = "ShipmentRequestManifests"
 
+
 class ShipmentRequestManifestLog(models.Model):
     shipment_request_manifest = models.ForeignKey('ShipmentRequestManifest', on_delete=models.CASCADE)
     responded_by = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
@@ -136,3 +137,32 @@ class ShipmentRequestManifestLog(models.Model):
     class Meta:
         verbose_name = "ShipmentRequestManifestLog"
         verbose_name_plural = "ShipmentRequestManifestLogs"
+
+
+class InventoryItemStock(models.Model):
+    item = models.ForeignKey('InventoryItem', on_delete=models.CASCADE)
+    center = models.ForeignKey('Center', on_delete=models.CASCADE)
+    updated_by =  models.ForeignKey('Volunteer', on_delete=models.CASCADE)
+    qty_available = models.IntegerField(default=0)
+    qty_needed = models.IntegerField()
+    admin_notes = models.TextField(null=True, blank=True)
+    public_notes = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "InventoryItemStock"
+        verbose_name_plural = "InventoryItemStock"
+
+
+class InventoryItemStockLog(models.Model):
+    inventory_item_stock = models.ForeignKey('InventoryItemStock', on_delete=models.CASCADE)
+    updated_by =  models.ForeignKey('Volunteer', on_delete=models.CASCADE)
+    qty_available = models.IntegerField()
+    qty_needed = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "InventoryItemStockLog"
+        verbose_name_plural = "InventoryItemStockLogs"
