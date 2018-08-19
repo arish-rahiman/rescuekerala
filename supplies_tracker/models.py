@@ -25,6 +25,17 @@ CENTER_TYPE = (
     ('CC', 'Collection Center'),
 )
 
+class InventoryUnit(models.Model):
+    name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Inventory Item"
+        verbose_name_plural = "Inventory Items"
+
+    def __str__(self):
+        return self.name
+
 class InventoryItemCategory(models.Model):
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
@@ -36,7 +47,7 @@ class InventoryItemCategory(models.Model):
 
 class InventoryItem(models.Model):
     name = models.CharField(max_length=100)
-    unit = models.CharField(max_length=50)
+    unit = models.ForeignKey('InventoryUnit', on_delete=models.CASCADE)
     category = models.ForeignKey('InventoryItemCategory', on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -48,13 +59,12 @@ class InventoryItem(models.Model):
     def __str__(self):
         return self.name
 
-
 class Volunteer(models.Model):
     USER_TYPE = CENTER_TYPE + (('AD', 'Admin'),)
     phone_number = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     user_type = models.CharField(max_length=2, choices=USER_TYPE)
-    center = models.ForeignKey('Center', null=True, blank=True, on_delete=models.CASCADE)
+    center = models.ManyToManyField('Center', null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -62,7 +72,6 @@ class Volunteer(models.Model):
     class Meta:
         verbose_name = "Volunteer"
         verbose_name_plural = "Volunteers"
-
 
 class Center(models.Model):
     CENTER_STATUS = (
@@ -85,7 +94,6 @@ class Center(models.Model):
     class Meta:
         verbose_name = "Center"
         verbose_name_plural = "Centers"
-
 
 class ShipmentRequest(models.Model):
     STATUS = (
@@ -116,7 +124,6 @@ REQUEST_ITEM_STATUS = (
     ('DE', 'Delivered'),
 )
 
-
 class ShipmentRequestItem(models.Model):
     shipment_request = models.ForeignKey('ShipmentRequest', on_delete=models.CASCADE)
     inventory_item = models.ForeignKey('InventoryItem', null=True, blank=True, on_delete=models.CASCADE)
@@ -131,7 +138,6 @@ class ShipmentRequestItem(models.Model):
         verbose_name = "Shipment Request Item"
         verbose_name_plural = "Shipment Request Items"
 
-
 class ShipmentRequestItemLog(models.Model):
     shipment_request_item = models.ForeignKey('ShipmentRequestItem', on_delete=models.CASCADE)
     responded_by = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
@@ -144,7 +150,6 @@ class ShipmentRequestItemLog(models.Model):
     class Meta:
         verbose_name = "Shipment Request Item Log"
         verbose_name_plural = "Shipment Request Item Logs"
-
 
 class InventoryItemStock(models.Model):
     item = models.ForeignKey('InventoryItem', on_delete=models.CASCADE)
@@ -160,7 +165,6 @@ class InventoryItemStock(models.Model):
     class Meta:
         verbose_name = "Inventory Item Stock"
         verbose_name_plural = "Inventory Item Stocks"
-
 
 class InventoryItemStockLog(models.Model):
     inventory_item_stock = models.ForeignKey('InventoryItemStock', on_delete=models.CASCADE)
