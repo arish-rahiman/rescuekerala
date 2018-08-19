@@ -27,4 +27,5 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view()),
     path('api/1/rest-auth/', include('rest_auth.urls')),
     path('api/1/', include('mainapp.api_urls')),
+    path('supplies_tracker/', include('supplies_tracker.urls', namespace='supplies_tracker')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
