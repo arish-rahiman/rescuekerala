@@ -50,11 +50,12 @@ class InventoryItem(models.Model):
 class Volunteer(models.Model):
     USER_TYPE = CENTER_TYPE + (('AD', 'Admin'),)
     phone_number = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     user_type = models.CharField(max_length=2, choices=USER_TYPE)
     center = models.ForeignKey('Center', null=True, blank=True, on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Volunteer"
@@ -74,7 +75,7 @@ class Center(models.Model):
     notes = models.TextField(null=True, blank=True)
     public_notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
     update_log = models.TextField(null=True, blank=True)
     center_type = models.CharField(max_length=2, choices=CENTER_TYPE)
     name = models.CharField(max_length=100)
@@ -114,6 +115,7 @@ REQUEST_ITEM_STATUS = (
     ('DE', 'Delivered'),
 )
 
+
 class ShipmentRequestItem(models.Model):
     shipment_request = models.ForeignKey('ShipmentRequest', on_delete=models.CASCADE)
     inventory_item = models.ForeignKey('InventoryItem', null=True, blank=True, on_delete=models.CASCADE)
@@ -144,29 +146,29 @@ class ShipmentRequestItemLog(models.Model):
 
 
 class InventoryItemStock(models.Model):
-   item = models.ForeignKey('InventoryItem', on_delete=models.CASCADE)
-   center = models.ForeignKey('Center', on_delete=models.CASCADE)
-   updated_by =  models.ForeignKey('Volunteer', on_delete=models.CASCADE)
-   qty_available = models.IntegerField()
-   qty_needed = models.IntegerField()
-   admin_notes = models.TextField(null=True, blank=True)
-   public_notes = models.TextField(null=True, blank=True)
-   created_at = models.DateTimeField(auto_now_add=True)
-   modified_at = models.DateTimeField(auto_now=True)
+    item = models.ForeignKey('InventoryItem', on_delete=models.CASCADE)
+    center = models.ForeignKey('Center', on_delete=models.CASCADE)
+    updated_by = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
+    qty_available = models.IntegerField()
+    qty_needed = models.IntegerField()
+    admin_notes = models.TextField(null=True, blank=True)
+    public_notes = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-   class Meta:
-       verbose_name = "InventoryItemStock"
-       verbose_name_plural = "InventoryItemStocks"
+    class Meta:
+        verbose_name = "InventoryItemStock"
+        verbose_name_plural = "InventoryItemStocks"
 
 
 class InventoryItemStockLog(models.Model):
-   inventory_item_stock = models.ForeignKey('InventoryItemStock', on_delete=models.CASCADE)
-   updated_by =  models.ForeignKey('Volunteer', on_delete=models.CASCADE)
-   qty_available = models.IntegerField()
-   qty_needed = models.IntegerField()
-   created_at = models.DateTimeField(auto_now_add=True)
-   modified_at = models.DateTimeField(auto_now=True)
+    inventory_item_stock = models.ForeignKey('InventoryItemStock', on_delete=models.CASCADE)
+    updated_by = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
+    qty_available = models.IntegerField()
+    qty_needed = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-   class Meta:
-       verbose_name = "InventoryItemStockLog"
-       verbose_name_plural = "InventoryItemStockLogs"
+    class Meta:
+        verbose_name = "InventoryItemStockLog"
+        verbose_name_plural = "InventoryItemStockLogs"
