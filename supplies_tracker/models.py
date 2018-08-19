@@ -83,3 +83,56 @@ class Center(models.Model):
     class Meta:
         verbose_name = "Center"
         verbose_name_plural = "Centers"
+
+
+class ShipmentRequest(models.Model):
+    STATUS = (
+        ('RC', 'Request Created'),
+        ('PC', 'Partially Completed'),
+        ('CO', 'Completed'),
+        ('DE', 'Delivered'),
+    )
+
+    delivery_to = models.ForeignKey('Center', on_delete=models.CASCADE)
+    raised_by = models.ForeignKey('Volunteer', on_delete=models.CASCADE, related_name="+")
+    status = models.CharField(max_length=3, choices=STATUS, default='RC')
+    completed_at = models.DateTimeField(null=True, blank=True)
+    completed_by = models.ForeignKey('Volunteer', null=True, blank=True, on_delete=models.CASCADE, related_name="+")
+    notes = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "ShipmentRequest"
+        verbose_name_plural = "ShipmentRequests"
+
+ITEM_MANIFEST_STATUS = (
+    ('RC', 'Request Created'),
+    ('PC', 'Partially Completed'),
+    ('CO', 'Completed'),
+    ('DE', 'Delivered'),
+)
+
+class ShipmentRequestManifest(models.Model):
+    shipment_request = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
+    inventory_item = models.ForeignKey('InventoryItem', null=True, blank=True, on_delete=models.CASCADE)
+    line_item = models.TextField(null=True, blank=True)
+    qty = models.IntegerField()
+    status = models.CharField(max_length=3, choices=ITEM_MANIFEST_STATUS, default='RC')
+
+    class Meta:
+        verbose_name = "ShipmentRequestManifest"
+        verbose_name_plural = "ShipmentRequestManifests"
+
+class ShipmentRequestManifestLog(models.Model):
+    shipment_request_manifest = models.ForeignKey('ShipmentRequestManifest', on_delete=models.CASCADE)
+    responded_by = models.ForeignKey('Volunteer', on_delete=models.CASCADE)
+    comment = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    qty_promised = models.IntegerField()
+    status_changed_to = models.CharField(max_length=3, choices=ITEM_MANIFEST_STATUS, default='RC')
+
+    class Meta:
+        verbose_name = "ShipmentRequestManifestLog"
+        verbose_name_plural = "ShipmentRequestManifestLogs"
