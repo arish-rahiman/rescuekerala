@@ -83,6 +83,19 @@ class Volunteer(models.Model):
         return self.user.get_full_name()
 
 
+class CenterManger(models.Manager):
+
+    def get_district_center_data(self, district):
+        qs = self.get_queryset().filter(district=district)
+        rc = qs.filter(center_type='RC').count()
+        cc = qs.filter(center_type='CC').count()
+        return {
+            'centers': qs,
+            'rc_count': rc,
+            'cc_count': cc
+        }
+
+
 class Center(models.Model):
     CENTER_STATUS = (
         (True, 'Open'),
@@ -100,6 +113,7 @@ class Center(models.Model):
     update_log = models.TextField(null=True, blank=True)
     center_type = models.CharField(max_length=2, choices=CENTER_TYPE)
     district_center = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    objects = CenterManger()
 
     class Meta:
         verbose_name = "Center"
@@ -107,6 +121,20 @@ class Center(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ShipmentRequestManager(models.Manager):
+
+    def get_district_request_data(self, centers):
+        qs = self.get_queryset().filter(delivery_to_id__in=centers)
+        active_req = qs.filter(status__in=['RC', 'PC'])
+        urgent_req = active_req.filter(is_urgent=True)
+        return {
+            'total_requests': qs.count(),
+            'active_requests': active_req.count(),
+            'urgent_requests': urgent_req.count()
+        }
+
 
 class ShipmentRequest(models.Model):
     STATUS = (
@@ -125,6 +153,7 @@ class ShipmentRequest(models.Model):
     is_urgent = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = ShipmentRequestManager()
 
     class Meta:
         verbose_name = "Shipment Request"
