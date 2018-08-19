@@ -25,6 +25,7 @@ CENTER_TYPE = (
     ('CC', 'Collection Center'),
 )
 
+
 class InventoryItemCategory(models.Model):
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
@@ -34,12 +35,14 @@ class InventoryItemCategory(models.Model):
     def __str__(self):
         return self.name
 
+
 class InventoryItem(models.Model):
     name = models.CharField(max_length=100)
     unit = models.CharField(max_length=50)
     category = models.ForeignKey('InventoryItemCategory', on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Inventory Item"
@@ -52,9 +55,9 @@ class InventoryItem(models.Model):
 class Volunteer(models.Model):
     USER_TYPE = CENTER_TYPE + (('AD', 'Admin'),)
     phone_number = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=2, choices=USER_TYPE)
-    center = models.ForeignKey('Center', null=True, blank=True, on_delete=models.CASCADE)
+    center = models.ManyToManyField('Center', null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
