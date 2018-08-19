@@ -57,6 +57,7 @@ RAVEN_CONFIG = {
 # Application definition
 
 INSTALLED_APPS = [
+    'supplies_tracker',
     'mainapp.apps.MainappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
